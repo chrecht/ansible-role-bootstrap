@@ -1,0 +1,37 @@
+---
+- name: Check if disk exists
+  ansible.builtin.stat:
+    path: "{{ longhorn_device }}"
+  register: diskstat
+
+- name: Create a new ext4 primary partition
+  parted:
+    device: "{{ longhorn_device }}"
+    number: 1
+    state: present
+    fs_type: ext4
+  when: diskstat.stat.exists
+
+- name: Format new partition
+  filesystem:
+    fstype: ext4
+    dev: "{{ longhorn_device }}1"
+  when: diskstat.stat.exists
+
+- name: Mount device
+  mount:
+    path: /var/lib/longhorn
+    src: "{{ longhorn_device }}1"
+    fstype: ext4
+    state: mounted
+  when: diskstat.stat.exists
+
+- name: Make sure iscsid is enabled
+  ansible.builtin.systemd:
+    name: "iscsid"
+    enabled: yes
+    
+- name: Make sure iscsid is running
+  ansible.builtin.systemd:
+    name: "iscsid"
+    state: started

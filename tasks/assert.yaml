@@ -1,0 +1,26 @@
+---
+- name: Assert required variables for hostname
+  ansible.builtin.assert:
+    that:
+      - domainname is defined
+      - domainname | length > 0
+    fail_msg: "'domainname' must be set when bootstrap_set_hostname is enabled"
+  when: bootstrap_set_hostname | default(false)
+
+- name: Assert required variables for admin user
+  ansible.builtin.assert:
+    that:
+      - admin_user is defined
+      - admin_user | length > 0
+      - ssh_authorized_keys is defined
+      - ssh_authorized_keys | length > 0
+    fail_msg: "'admin_user' and 'ssh_authorized_keys' must be set when bootstrap_admin_user is enabled"
+  when: bootstrap_admin_user | default(false)
+
+- name: Assert required variables for longhorn disks
+  ansible.builtin.assert:
+    that:
+      - longhorn_device is defined
+      - longhorn_device | length > 0
+    fail_msg: "'longhorn_device' must be set when bootstrap_longhorn_disks is enabled"
+  when: bootstrap_longhorn_disks | default(false)

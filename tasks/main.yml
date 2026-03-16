@@ -1,0 +1,45 @@
+---
+
+- name: Validate variables
+  ansible.builtin.include_tasks: assert.yaml
+
+- name: Hostname
+  ansible.builtin.include_tasks: hostname.yaml
+  when: bootstrap_set_hostname | default(false)
+
+- name: Populate /etc/hosts file
+  ansible.builtin.include_tasks: hostsfile.yaml
+  when: bootstrap_hosts_file | default(false)
+
+- name: OS Updates
+  ansible.builtin.include_tasks: os-updates.yaml
+  when: bootstrap_os_updates | default(false)
+
+- name: Packages
+  ansible.builtin.include_tasks: packages.yaml
+  when: bootstrap_packages | default(false)
+
+- name: Admin User
+  ansible.builtin.include_tasks: admin-user.yaml
+  when: bootstrap_admin_user | default(false)
+
+- name: Disable Swap
+  ansible.builtin.include_tasks: disable-swap.yaml
+  when: bootstrap_disable_swap | default(false)
+
+- name: Install iscsi
+  ansible.builtin.include_tasks: iscsid.yaml
+  when: bootstrap_install_iscsi | default(false)
+
+- name: Disable Multipathd
+  ansible.builtin.include_tasks: disable-multipathd.yml
+  when: bootstrap_disable_multipathd | default(false)
+
+- name: GRUB Splash
+  ansible.builtin.include_tasks: grub-splash.yaml
+  when: bootstrap_grub_splash | default(false)
+
+- name: Longhorn Disks
+  ansible.builtin.include_tasks: longhorn-disks.yaml
+  when: bootstrap_longhorn_disks | default(false)
+

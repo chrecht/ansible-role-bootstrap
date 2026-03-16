@@ -1,0 +1,20 @@
+---
+
+- name: apt-get update & upgrade
+  apt:
+    upgrade: "yes"
+    update_cache: "True"
+    cache_valid_time: 3600
+
+- name: apt-get dist-upgrade
+  apt:
+    upgrade: "dist"
+
+- name: apt-get -y autoremove
+  apt:
+    autoremove: "True"
+
+- name: disable unattended-upgrades
+  apt:
+    name: unattended-upgrades
+    state: absent

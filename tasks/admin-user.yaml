@@ -1,0 +1,29 @@
+---
+
+  - name: Remove authorized keys
+    ansible.posix.authorized_key:
+      user: "{{ admin_user }}"
+      state: absent
+      key: "{{ item }}"
+    loop: "{{ ssh_authorized_keys_absent }}"
+    tags:
+      - users
+
+  - name: Add authorized keys from github
+    ansible.posix.authorized_key:
+      user: "{{ admin_user }}"
+      state: present
+      key: "{{ item }}"
+    loop: "{{ ssh_authorized_keys }}"
+    tags:
+      - users
+
+  - name: Add admin user to sudoers group
+    lineinfile:
+      dest: /etc/sudoers
+      state: present
+      regexp: '^%{{ admin_user }}'
+      line: '%{{ admin_user }} ALL=(ALL:ALL) ALL'
+      validate: 'visudo -cf %s'
+    tags:
+      - users

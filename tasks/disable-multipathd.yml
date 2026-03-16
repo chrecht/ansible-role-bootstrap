@@ -1,0 +1,7 @@
+---
+
+
+- name: disable multipathd
+  service:
+    name: multipathd
+    enabled: no

@@ -1,0 +1,16 @@
+---
+- name: Install iscsid
+  apt:
+    name: open-iscsi
+    state: present
+  tags: "iscsi"
+
+- name: Make sure iscsid is enabled
+  ansible.builtin.systemd:
+    name: "iscsid"
+    enabled: yes
+    
+- name: Make sure iscsid is running
+  ansible.builtin.systemd:
+    name: "iscsid"
+    state: started

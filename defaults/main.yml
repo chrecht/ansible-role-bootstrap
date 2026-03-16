@@ -1,0 +1,29 @@
+---
+# defaults file for ansible-role-bootstrap
+
+bootstrap_set_hostname: true
+bootstrap_hosts_file: true
+
+bootstrap_os_updates: true
+bootstrap_packages: true
+bootstrap_ssh: true
+bootstrap_admin_user: true
+
+bootstrap_install_iscsi: false
+
+bootstrap_disable_swap: false
+bootstrap_disable_multipathd: false
+bootstrap_grub_splash: false
+bootstrap_longhorn_disks: false
+ 
+bootstrap_packages_list:
+  - curl
+  - wget
+  - nano
+  - htop
+  - git
+  - unzip
+  - net-tools
+  - ca-certificates
+  - gnupg
+#  - cifs-utils
