@@ -26,4 +26,6 @@ bootstrap_packages_list:
   - net-tools
   - ca-certificates
   - gnupg
+  - iptables
+  - nfs-common
 #  - cifs-utils
